@@ -1,0 +1,141 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model partnerLinks {
+  id          String   @id @unique @default(uuid())
+  partnerName String
+  partner     partners @relation(fields: [partnerName], references: [name])
+
+  name  String
+  emoji String
+  link  String
+}
+
+model partners {
+  id String @id @unique @default(uuid())
+
+  name     String @unique
+  logo     String @unique
+  category String
+
+  owner      String
+  ownerImage String
+  ownerLink  String?
+
+  description      String
+  long_description String
+  links            partnerLinks[]
+}
+
+model applications {
+  creatorid String @db.VarChar(255)
+  owner     users  @relation(fields: [creatorid], references: [userid])
+
+  name String @db.VarChar(255)
+  logo String @default("/logo.png") @db.VarChar(255)
+
+  token  String  @unique @db.VarChar(255)
+  active Boolean @default(true)
+
+  permissions String[] @default(["global.*"])
+}
+
+model plugins {
+  id     Int    @id @default(autoincrement())
+  postid String @db.VarChar(255)
+
+  post posts @relation(fields: [postid], references: [postid])
+
+  type     String  @db.VarChar(255)
+  href     String? @db.VarChar(255)
+  jsonData Json?
+}
+
+model comments {
+  creatorid String @db.VarChar(255)
+  user      users  @relation(fields: [creatorid], references: [userid])
+
+  caption String  @db.VarChar(255)
+  image   String? @db.VarChar(255)
+
+  post   posts  @relation(fields: [postid], references: [postid])
+  postid String @db.VarChar(255)
+
+  commentid String @id @unique @db.VarChar(255)
+}
+
+model upvotes {
+    id  String  @id @unique @default(uuid())
+    userid String @db.VarChar(255)
+    postid String @db.VarChar(255)
+    post posts @relation(fields: [postid], references: [postid])
+}
+
+model downvotes {
+    id  String  @id @unique @default(uuid())
+    userid String @db.VarChar(255)
+    postid String @db.VarChar(255)
+    post posts @relation(fields: [postid], references: [postid])
+}
+
+model following {
+    id  String  @id @unique @default(uuid())
+    
+    userid String @db.VarChar(255)
+    user users @relation("user", fields: [userid], references: [userid])
+
+    targetid String @db.VarChar(255)
+    target users @relation("target", fields: [targetid], references: [userid])
+}
+
+model posts {
+  userid String @db.VarChar(255)
+  user   users  @relation(fields: [userid], references: [userid])
+
+  caption String    @db.VarChar(255)
+  image   String?   @db.VarChar(255)
+  plugins plugins[]
+
+  type   Int
+  postid String @id @unique @db.VarChar(255)
+
+  upvotes   upvotes[]
+  downvotes downvotes[]
+  comments  comments[]
+
+  createdat DateTime @default(now())
+}
+
+model users {
+  name    String? @db.VarChar(255)
+  userid  String  @id @unique @db.VarChar(255)
+  discord_id String? @db.VarChar(255) @unique
+  usertag String  @unique @db.VarChar(255)
+
+  bio       String   @default("None") @db.VarChar(255)
+  avatar    String   @default("/logo.png") @db.VarChar(255)
+  followers following[] @relation("target")
+  following following[] @relation("user")
+  badges    String[]
+
+  state State @default(ACTIVE)
+  staff_perms String[] @default([])
+
+  applications applications[]
+  posts        posts[]
+  comments     comments[]
+}
+
+enum State {
+    ACTIVE
+    BANNED
+    VOTE_BANNED
+    FOLLOW_BANNED
+    PRIVATE
+}
