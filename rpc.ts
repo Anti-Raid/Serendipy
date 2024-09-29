@@ -132,7 +132,7 @@ const logAction = async (
 					.setTitle(action.toLowerCase())
 					.setColor("Random")
 					.setURL(`https://sparkyflight.xyz/@${user.usertag}`)
-					.setThumbnail("https://sparkyflight.xyz/logo.png")
+					.setThumbnail("https://sparkyflight.xyz/logo.webp")
 					.setAuthor({
 						name: `${user.name} (@${user.usertag})`,
 						url: user.avatar,
@@ -158,7 +158,7 @@ const logAction = async (
 					.setTimestamp()
 					.setFooter({
 						text: `This is an automated message from Sparkyflight!`,
-						iconURL: "https://sparkyflight.xyz/logo.png",
+						iconURL: "https://sparkyflight.xyz/logo.webp",
 					}),
 			],
 		});

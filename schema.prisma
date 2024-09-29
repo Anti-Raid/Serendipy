@@ -38,7 +38,7 @@ model applications {
   owner     users  @relation(fields: [creatorid], references: [userid])
 
   name String @db.VarChar(255)
-  logo String @default("/logo.png") @db.VarChar(255)
+  logo String @default("/logo.webp") @db.VarChar(255)
 
   token  String  @unique @db.VarChar(255)
   active Boolean @default(true)
@@ -119,7 +119,7 @@ model users {
   usertag String  @unique @db.VarChar(255)
 
   bio       String   @default("None") @db.VarChar(255)
-  avatar    String   @default("/logo.png") @db.VarChar(255)
+  avatar    String   @default("/logo.webp") @db.VarChar(255)
   followers following[] @relation("target")
   following following[] @relation("user")
   badges    String[]
