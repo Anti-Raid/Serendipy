@@ -108,6 +108,7 @@ model posts {
   upvotes   upvotes[]
   downvotes downvotes[]
   comments  comments[]
+  flairs String[] @default([])
 
   createdat DateTime @default(now())
 }
@@ -122,7 +123,7 @@ model users {
   avatar    String   @default("/logo.webp") @db.VarChar(255)
   followers following[] @relation("target")
   following following[] @relation("user")
-  badges    String[]
+  badges    String[] @default([])
 
   state State @default(ACTIVE)
   staff_perms String[] @default([])
