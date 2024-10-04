@@ -131,8 +131,8 @@ const logAction = async (
 				new EmbedBuilder()
 					.setTitle(action.toLowerCase())
 					.setColor("Random")
-					.setURL(`https://sparkyflight.xyz/@${user.usertag}`)
-					.setThumbnail("https://sparkyflight.xyz/logo.webp")
+					.setURL(`https://antiraid.xyz/forums/@${user.usertag}`)
+					.setThumbnail("https://antiraid.xyz/logo.webp")
 					.setAuthor({
 						name: `${user.name} (@${user.usertag})`,
 						url: user.avatar,
@@ -157,8 +157,8 @@ const logAction = async (
 					)
 					.setTimestamp()
 					.setFooter({
-						text: `This is an automated message from Sparkyflight!`,
-						iconURL: "https://sparkyflight.xyz/logo.webp",
+						text: `This is an automated message from AntiRaid Forums!`,
+						iconURL: "https://antiraid.xyz/logo.webp",
 					}),
 			],
 		});
