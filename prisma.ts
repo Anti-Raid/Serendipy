@@ -19,7 +19,7 @@ class Users {
 					userid: userid,
 					usertag: usertag,
 					bio: bio,
-					avatar: avatar
+					avatar: avatar,
 				},
 			});
 
@@ -371,7 +371,7 @@ class Posts {
 				},
 			},
 		});
-        
+
 		return docs;
 	}
 
@@ -415,11 +415,11 @@ class Posts {
 
 	static async upvote(PostID: string, UserID: string) {
 		try {
-            const user = await prisma.users.findUnique({
-                where: {
-                    userid: UserID,
-                }
-            });
+			const user = await prisma.users.findUnique({
+				where: {
+					userid: UserID,
+				},
+			});
 
 			await prisma.upvotes.create({
 				data: {
@@ -437,10 +437,10 @@ class Posts {
 	static async downvote(PostID: string, UserID: string) {
 		try {
 			const user = await prisma.users.findUnique({
-                where: {
-                    userid: UserID,
-                }
-            });
+				where: {
+					userid: UserID,
+				},
+			});
 
 			await prisma.downvotes.create({
 				data: {
@@ -463,10 +463,10 @@ class Posts {
 	) {
 		try {
 			const user = await prisma.users.findUnique({
-                where: {
-                    userid: UserID,
-                }
-            });
+				where: {
+					userid: UserID,
+				},
+			});
 
 			await prisma.comments.create({
 				data: {
@@ -477,7 +477,7 @@ class Posts {
 					image: Image,
 				},
 			});
-            
+
 			return true;
 		} catch (err) {
 			return err;
