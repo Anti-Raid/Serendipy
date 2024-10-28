@@ -108,7 +108,7 @@ model posts {
   upvotes   upvotes[]
   downvotes downvotes[]
   comments  comments[]
-  flairs String[] @default([])
+  flairs Flairs[] @default([])
 
   createdat DateTime @default(now())
 }
@@ -139,4 +139,10 @@ enum State {
     VOTE_BANNED
     FOLLOW_BANNED
     PRIVATE
+}
+
+enum Flairs {
+    Support
+    Question
+    Community
 }
