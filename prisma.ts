@@ -119,7 +119,7 @@ class Users {
 				},
 			});
 
-			(await prisma.posts.findMany({})).map(async (post) => {
+			(await prisma.posts.findMany({})).forEach(async (post) => {
 				await prisma.plugins.deleteMany({
 					where: {
 						postid: post.postid,
@@ -242,7 +242,7 @@ class Posts {
 				},
 			});
 
-			plugins.map(async (p) => {
+			plugins.forEach(async (p) => {
 				await prisma.plugins.create({
 					data: {
 						postid: postid,
@@ -421,7 +421,7 @@ class Posts {
 				},
 			});
 
-			await prisma.upvotes.create({
+			if (user) await prisma.upvotes.create({
 				data: {
 					postid: PostID,
 					userid: UserID,
@@ -442,7 +442,7 @@ class Posts {
 				},
 			});
 
-			await prisma.downvotes.create({
+			if (user) await prisma.downvotes.create({
 				data: {
 					postid: PostID,
 					userid: UserID,
@@ -468,7 +468,7 @@ class Posts {
 				},
 			});
 
-			await prisma.comments.create({
+			if (user) await prisma.comments.create({
 				data: {
 					postid: PostID,
 					commentid: crypto.randomUUID().toString(),
@@ -575,34 +575,5 @@ class Applications {
 	}
 }
 
-// Partners
-class Partners {
-	static async get(data: any) {
-		const partner = await prisma.partners.findUnique({
-			where: data,
-			include: {
-				links: true,
-			},
-		});
-
-		if (partner) return partner;
-		else return null;
-	}
-
-	static async getAllPartners() {
-		try {
-			const doc = await prisma.partners.findMany({
-				include: {
-					links: true,
-				},
-			});
-
-			return doc;
-		} catch (error) {
-			return error;
-		}
-	}
-}
-
 // Export the classes
-export { prisma, Users, Posts, Applications, Partners };
+export { prisma, Users, Posts, Applications };

@@ -181,7 +181,7 @@ const Query = async (
 
 	if (entityAction) {
 		if (checkPerms(data.staff_id, entityAction.permissionRequired)) {
-			const ActionParams = entityAction.params.map((p) => p.name);
+			const ActionParams = entityAction.params.forEach((p) => p.name);
 
 			if (
 				JSON.stringify(Object.keys(data)) ===
